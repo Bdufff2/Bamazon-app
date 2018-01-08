@@ -21,7 +21,7 @@ connection.connect(function (err) {
 // =======================================================================================
 
 
-// Create a Node application that will first display all of the items available for sale.
+// display all of the items available for sale
 //  Include the ids, names, and prices of products for sale.
 
 // The app should then prompt users with two messages.

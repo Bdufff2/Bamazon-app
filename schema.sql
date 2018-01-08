@@ -21,9 +21,16 @@ VALUES ("FitBit", "Technology", 100, 80),
   ("Eloquent Javascript", "Books", 9.5, 20),
 	("Into Thin Air", "Books", 10.95, 50),
 	("Dunkirk", "Movies", 15, 200),
-  ("Logan", "Movies", 10, 200),
-  ("Star Wars", "Movies", 20, 200),
+  ("Logan", "Movies", 10, 100),
+  ("Star Wars", "Movies", 20, 150),
   ("Air Pods", "Technology", 120, 500),
-  ("Microsoft Surface", "Technology", 250, 500);
+  ("Microsoft Surface", "Technology", 299.99, 250),
+  ("Nike Hat", "Clothing", 22.95, 400),
+  ("Under Armour Shirt", "Clothing", 65, 1000),
+  ("Carhartt Pants", "Clothing", 55, 800),
+  ("Almond Milk", "Groceries", 3.75, 80),
+  ("Rye Bread", "Groceries", 2.99, 20),
+  ("Organic Chicken", "Groceries", 11.95, 50),
+  ("Dog Food", "Groceries", 10, 500);
 
 SELECT * FROM products;
