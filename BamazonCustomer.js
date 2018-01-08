@@ -1,4 +1,5 @@
 var mysql = require ("mysql");
+var inquirer = require("inquirer");
 var mySQLPassword = require ("./password.js");
 
 // establish database connection
@@ -13,10 +14,14 @@ var connection = mysql.createConnection({
 // test database connection
 connection.connect(function (err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId);
+    // console.log("connected as id " + connection.threadId);
 });
 
-// Then create a Node application called bamazonCustomer.js. Running this application will first display all of the items available for sale.
+// connection sucessfully established
+// =======================================================================================
+
+
+// Create a Node application that will first display all of the items available for sale.
 //  Include the ids, names, and prices of products for sale.
 
 // The app should then prompt users with two messages.
@@ -24,26 +29,31 @@ connection.connect(function (err) {
 // The first should ask them the ID of the product they would like to buy.
 
 inquirer.prompt([{
-    type: "list",
+    type: "input",
     name: "theme",
-    message: "What is the ID of the item you would like to purchase?",
-    choices: [
-        "Post Auction",
-        "Place Bid"
-    ]
+    message: "What is the ID of the item you would like to purchase?"
 }]).then(function (answer) {
-    if (answer.theme === "Post Auction") {
-    // run post auction function
-        addToAuctionList();
-    }else {
-    // run place bid function
-        promptUserWhichProduct();
-    }
+    // write statement to select the line from the products table
 });
 
 
 // The second message should ask how many units of the product they would like to buy.
-// Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
+inquirer.prompt([{
+    type: "input",
+    name: "theme",
+    message: "How many units would you like to purchase?"
+}]).then(function (answer) {
+    // check if the table has enough of the product to meet the customer's request.
+    if (answer > res.quantity) {
+        console.log("Sorry, we don't have that many available")
+    } else {
+        
+    }
+    // if quantity requested is available write statement to subtract the number of units purchased from the table
+});
+
+
+
 // If not, the app should log a phrase like Insufficient quantity!, and then prevent the order from going through.
 // However, if your store does have enough of the product, you should fulfill the customer's order.
 // This means updating the SQL database to reflect the remaining quantity.
