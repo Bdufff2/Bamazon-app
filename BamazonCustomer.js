@@ -90,7 +90,7 @@ function displayInventory(){
     connection.query(queryStr, function(err, res) {
         if (err) throw err;
 
-        console.log('Current Inventory: \n=======================================================================================' );
+        console.log('Current Inventory: \n============================================================================================' );
         
         var strInventory = '';
         for (var i = 0; i < res.length; i++) {
@@ -102,7 +102,7 @@ function displayInventory(){
             
             console.log(strInventory);
         }
-        console.log('=======================================================================================' );
+        console.log('============================================================================================' );
 
         initialPrompt();
     })
