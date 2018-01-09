@@ -1,12 +1,15 @@
-var mysql = require ("mysql");
+// pull necessary dependencies into application
+var mysql = require("mysql");
 var inquirer = require("inquirer");
-var mySQLPassword = require ("./password.js");
+var mySQLPassword = require("./password.js");
 
 // establish database connection
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
+    // insert your username
     user: "root",
+    // insert your password
     password: mySQLPassword,
     database: "bamazonDB"
 });
@@ -20,6 +23,12 @@ connection.connect(function (err) {
 // connection sucessfully established
 // =======================================================================================
 
+// // validate user input to ensure input will equal a number in the "item_id" section of the database
+// function validateUserInput(value) {
+//     var integer = Number.isInteger(parseFloat(value));
+//     var sign = Math.sign(value);
+// }
+
 
 // display all of the items available for sale
 //  Include the ids, names, and prices of products for sale.
@@ -28,33 +37,44 @@ connection.connect(function (err) {
 
 // The first should ask them the ID of the product they would like to buy.
 
-inquirer.prompt([{
-    type: "input",
-    name: "theme",
-    message: "What is the ID of the item you would like to purchase?"
-}]).then(function (answer) {
-    // write statement to select the line from the products table
-});
+function initialPrompt() {
+    inquirer.prompt([{
+        type: "input",
+        name: "item_id",
+        message: "What is the Item ID of the product you would like to purchase?"
+    },
+    {
+        type: "input",
+        name: "quantity",
+        message: "How many units would you like to purchase?"
+    }]).then(function (answer) {
+        // console.log('Customer has selected: \n    item_id = '  + input.item_id + '\n    quantity = ' + input.quantity);
 
+        var item = answer.item_id;
+        var itemQuantity = answer.quantity;
 
-// The second message should ask how many units of the product they would like to buy.
-inquirer.prompt([{
-    type: "input",
-    name: "theme",
-    message: "How many units would you like to purchase?"
-}]).then(function (answer) {
-    // check if the table has enough of the product to meet the customer's request.
-    if (answer > res.quantity) {
-        console.log("Sorry, we don't have that many available")
-    } else {
-        
-    }
-    // if quantity requested is available write statement to subtract the number of units purchased from the table
-});
+        // confirm that the item quantity exists in the database
+        var queryStr = 'SELECT * FROM products WHERE ?';
 
+        connection.query(queryStr, { item_id }, function (err, res) {
+            if (err) throw err;
 
+            if (res.length === 0) {
+                console.log('Error: must enter valid Item ID');
+                displayInventory();
+            } else {
+                var productData = res[0];
 
-// If not, the app should log a phrase like Insufficient quantity!, and then prevent the order from going through.
-// However, if your store does have enough of the product, you should fulfill the customer's order.
-// This means updating the SQL database to reflect the remaining quantity.
-// Once the update goes through, show the customer the total cost of their purchase.
+                if (itemQuantity <= productData.quantity) {
+                    console.log('Thanks for placing your order, we are working on it!');
+                    var updateQueryStr = 'UPDATE products SET quantity = ' + (productData.quantity - itemQuantity) + ' WHERE item_id = ' + item;
+
+                    connection.query(updateQueryStr, function(err, res){
+                        if (err) throw err;
+                        console.log('Your total is $' + productData.price * itemQuantity);
+                    })
+                }
+            }
+        })
+    });
+}
