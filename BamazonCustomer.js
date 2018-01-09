@@ -41,7 +41,7 @@ function initialPrompt() {
         // confirm that the item quantity exists in the database
         var queryStr = 'SELECT * FROM products WHERE ?';
 
-        connection.query(queryStr, { item_id }, function (err, res) {
+        connection.query(queryStr, item, function (err, res) {
             if (err) throw err;
 
             if (res.length === 0) {
