@@ -7,10 +7,11 @@ var mySQLPassword = require("./password.js");
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
-    // insert your username
+
+    // insert your username and password
     user: "root",
-    // insert your password
     password: mySQLPassword,
+
     database: "bamazonDB"
 });
 
@@ -20,22 +21,6 @@ connection.connect(function (err) {
     // console.log("connected as id " + connection.threadId);
 });
 
-// connection sucessfully established
-// =======================================================================================
-
-// // validate user input to ensure input will equal a number in the "item_id" section of the database
-// function validateUserInput(value) {
-//     var integer = Number.isInteger(parseFloat(value));
-//     var sign = Math.sign(value);
-// }
-
-
-// display all of the items available for sale
-//  Include the ids, names, and prices of products for sale.
-
-// The app should then prompt users with two messages.
-
-// The first should ask them the ID of the product they would like to buy.
 
 function initialPrompt() {
     inquirer.prompt([{
